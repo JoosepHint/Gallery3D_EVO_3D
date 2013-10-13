@@ -117,6 +117,7 @@
     <!--  Label for the image vibrance (strengthens colors) filter button [CHAR LIMIT=10] -->
     <string name="vibrance">Vibrance</string>
     <!--  Label for the image saturation (brightens colors) filter button [CHAR LIMIT=10] -->
+    <string name="saturation">Saturation</string>
     <!--  Label for the image BW filter (makes black & white) button [CHAR LIMIT=10] -->
     <string name="bwfilter">BW Filter</string>
     <!--  Label for the image Autocolor filter (makes off-white colors whiter) button [CHAR LIMIT=10] -->
@@ -130,6 +131,22 @@
     <!--  Label for the image curves filter button [CHAR LIMIT=10] -->
     <string name="curvesRGB">Curves</string>
     <!--  Label for the image vignette filter (darkens photo around edges) button [CHAR LIMIT=10] -->
+    <string name="vignette">Vignette</string>
+    <!--  Label for the image effect that removes redeye. [CHAR LIMIT=10] -->
+    <string name="redeye">Red Eye</string>
+    <!--  Label for the that allows drawing on Image [CHAR LIMIT=10] -->
+    <string name="imageDraw">Draw</string>
+    <!--  Label for the image straighten effect [CHAR LIMIT=15] -->
+    <string name="straighten" msgid="5217801513491493491">Straighten</string>
+    <!--  Label for the image crop effect [CHAR LIMIT=15] -->
+    <string name="crop" msgid="5584000454518174632">Crop</string>
+    <!--  Label for the image rotate effect [CHAR LIMIT=15] -->
+    <string name="rotate" msgid="460017689320955494">Rotate</string>
+    <!--  Label for the image flip effect [CHAR LIMIT=15] -->
+    <string name="mirror">Mirror</string>
+    <!-- Name for the photo effect that inverts photo to negative images. [CHAR LIMIT=10] -->
+    <string name="negative">Negative</string>
+    <!--  Label for having no filters applied to the image [CHAR LIMIT=10] -->
     <string name="none" msgid="3601545724573307541">None</string>
     <!--  Label for the image edges effect (highlights edges in image) [CHAR LIMIT=10] -->
     <string name="edge">Edges</string>

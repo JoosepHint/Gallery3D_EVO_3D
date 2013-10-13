@@ -626,20 +626,28 @@ public abstract class PhotoPage extends ActivityState implements
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
+				try{
 				DataManager manager = mActivity.getDataManager();
 				MediaItem current = mModel.getMediaItem(0);
 				if (current != null) {
 					Path path = current.getPath();
+					
 					if (getPathFromURI(manager.getContentUri(path))
 							.toLowerCase().contains("mpo")
 							|| getPathFromURI(manager.getContentUri(path))
 									.toLowerCase().contains("jps")) {
 						mMenu.getItem(15).setVisible(true).setEnabled(true);
-					}
-				} else {
+					}else {
 					mMenu.getItem(15).setVisible(false).setEnabled(false);
 				}
+				}
 			}
+			catch(UnsupportedOperationException e){
+				e.printStackTrace();
+			}catch(NullPointerException e){
+				e.printStackTrace();
+			}
+		  }
 		}, 500);
 	}
 
@@ -850,6 +858,34 @@ public abstract class PhotoPage extends ActivityState implements
 		} else {
 			updateUIForCurrentPhoto();
 		}
+		final Handler handler = new Handler();
+		// TODO A bit hackish, but it works. Find better solution later :p
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				try{
+				DataManager manager = mActivity.getDataManager();
+				MediaItem current = mModel.getMediaItem(0);
+				if (current != null) {
+					Path path = current.getPath();
+					
+					if (getPathFromURI(manager.getContentUri(path))
+							.toLowerCase().contains("mpo")
+							|| getPathFromURI(manager.getContentUri(path))
+									.toLowerCase().contains("jps")) {
+						mMenu.getItem(15).setVisible(true).setEnabled(true);
+					}else {
+					mMenu.getItem(15).setVisible(false).setEnabled(false);
+				}
+				}
+			}
+			catch(UnsupportedOperationException e){
+				e.printStackTrace();
+			}catch(NullPointerException e){
+				e.printStackTrace();
+			}
+		  }
+		}, 500);
 	}
 
 	private void updateProgressBar() {
@@ -1600,20 +1636,29 @@ public abstract class PhotoPage extends ActivityState implements
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
+				try{
 				DataManager manager = mActivity.getDataManager();
 				MediaItem current = mModel.getMediaItem(0);
 				if (current != null) {
 					Path path = current.getPath();
+					
 					if (getPathFromURI(manager.getContentUri(path))
 							.toLowerCase().contains("mpo")
 							|| getPathFromURI(manager.getContentUri(path))
 									.toLowerCase().contains("jps")) {
 						mMenu.getItem(15).setVisible(true).setEnabled(true);
-					}
+					
 				} else {
 					mMenu.getItem(15).setVisible(false).setEnabled(false);
 				}
+				}
 			}
+			catch(UnsupportedOperationException e){
+				e.printStackTrace();
+			}catch(NullPointerException e){
+				e.printStackTrace();
+			}
+		  }
 		}, 500);
 	}
 

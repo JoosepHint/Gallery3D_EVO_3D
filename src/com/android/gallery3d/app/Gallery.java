@@ -16,11 +16,20 @@
 
 package com.android.gallery3d.app;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.InputDevice;
@@ -53,7 +62,7 @@ public final class Gallery extends AbstractGalleryActivity implements OnCancelLi
 
     private static final String TAG = "Gallery";
     private Dialog mVersionCheckDialog;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

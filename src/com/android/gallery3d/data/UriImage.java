@@ -17,12 +17,24 @@
 package com.android.gallery3d.data;
 
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.BitmapRegionDecoder;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
+import android.support.v4.content.CursorLoader;
+import android.widget.Toast;
 
 import com.android.gallery3d.app.GalleryApp;
 import com.android.gallery3d.app.PanoramaMetadataSupport;
@@ -186,7 +198,6 @@ public class UriImage extends MediaItem {
         protected BitmapJob(int type) {
             mType = type;
         }
-
         @Override
         public Bitmap run(JobContext jc) {
             if (!prepareInputFile(jc)) return null;
@@ -199,7 +210,14 @@ public class UriImage extends MediaItem {
             if (jc.isCancelled() || bitmap == null) {
                 return null;
             }
-
+			if (getPathFromURI(mUri)
+					.toLowerCase().contains("mpo")
+					|| getPathFromURI(mUri)
+							.toLowerCase().contains("jps")) {
+				Toast.makeText(mApplication.getAndroidContext(), "3D", Toast.LENGTH_LONG).show();
+	            bitmap = drawTextToBitmap(mApplication.getAndroidContext(), "3D", bitmap);
+			}
+			Toast.makeText(mApplication.getAndroidContext(), getPathFromURI(mUri), Toast.LENGTH_LONG).show();
             if (mType == MediaItem.TYPE_MICROTHUMBNAIL) {
                 bitmap = BitmapUtils.resizeAndCropCenter(bitmap, targetSize, true);
             } else {
@@ -208,7 +226,52 @@ public class UriImage extends MediaItem {
             return bitmap;
         }
     }
+    public Bitmap drawTextToBitmap(Context gContext, String gText, Bitmap bitmap) {
+        Resources resources = gContext.getResources();
+        float scale = resources.getDisplayMetrics().density;
 
+        android.graphics.Bitmap.Config bitmapConfig =
+                bitmap.getConfig();
+        // set default bitmap config if none
+        if(bitmapConfig == null) {
+            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+        }
+        // resource bitmaps are imutable, 
+        // so we need to convert it to mutable one
+        bitmap = bitmap.copy(bitmapConfig, true);
+
+        Canvas canvas = new Canvas(bitmap);
+        // new antialised Paint
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // text color - #3D3D3D
+        paint.setColor(Color.rgb(61, 61, 61));
+        // text size in pixels
+        paint.setTextSize((int) (25 * scale));
+        // text shadow
+        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+
+        // draw text to the Canvas center
+        Rect bounds = new Rect();
+        paint.setTextAlign(Align.CENTER);
+
+        paint.getTextBounds(gText, 0, gText.length(), bounds);
+        int x = (bitmap.getWidth() - bounds.width())/2;
+        int y = (bitmap.getHeight() + bounds.height())/2; 
+
+        canvas.drawText(gText, x * scale, y * scale, paint);
+
+        return bitmap;
+    }
+	private String getPathFromURI(Uri contentUri) {
+		String[] proj = { MediaStore.Images.Media.DATA };
+		CursorLoader loader = new CursorLoader(mApplication.getAndroidContext(),
+				contentUri, proj, null, null, null);
+		Cursor cursor = loader.loadInBackground();
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
     @Override
     public int getSupportedOperations() {
         int supported = SUPPORT_EDIT | SUPPORT_SETAS;

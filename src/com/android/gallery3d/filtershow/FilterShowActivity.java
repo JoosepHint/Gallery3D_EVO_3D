@@ -1059,9 +1059,10 @@ public class FilterShowActivity extends FragmentActivity implements OnItemClickL
     }
 
     static {
-    	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+    	try{
             System.loadLibrary("jni_filtershow_filters");
-    	}else{
+    	}catch(UnsatisfiedLinkError e){
+    		e.printStackTrace();
     	}
     }
 
